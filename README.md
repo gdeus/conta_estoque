@@ -1,6 +1,6 @@
 # conta_estoque
 
-contadorDeEstoque
+Contador de estoque estático para lanchonetes
 
 ## Getting Started
 
