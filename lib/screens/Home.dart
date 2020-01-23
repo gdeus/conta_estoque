@@ -18,44 +18,55 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: <Widget>[
-          DropdownButton<String>(
-            value: dropdownValue,
-            icon: Icon(Icons.arrow_downward),
-            iconSize: 30,
-            elevation: 14,
-            style: TextStyle(
-              color: Colors.deepOrange
+          Container(
+            width: MediaQuery.of(context).size.width * 0.95,
+              child: DropdownButton<String>(
+                  value: dropdownValue,
+                  itemHeight: 40.0,
+                  icon: Icon(Icons.arrow_downward),
+                  iconSize: 30,
+                  elevation: 14,
+                  isExpanded: true,
+                  style: TextStyle(
+                      color: Colors.deepOrange,
+                  ),
+                  underline: Container(
+                      height: 2,
+                      color: Colors.deepOrangeAccent
+                  ),
+                  onChanged: (String newValue){
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: <String>['Ambev', 'Eisenbah', 'Coca', 'Polina']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  })
+                      .toList(),
+                ),
             ),
-            underline: Container(
-              height: 2,
-              color: Colors.deepOrangeAccent
-            ),
-            onChanged: (String newValue){
-              setState(() {
-                dropdownValue = newValue;
-              });
-            },
-            items: <String>['Ambev', 'Eisenbah', 'Coca', 'Polina']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            })
-                .toList(),
-          ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
                 flex: 3,
                 child: Text("Corona",
                 style: TextStyle(
-                  fontSize: 20
-                ),),
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold
+                ),
+                ),
               ),
               Expanded(
                 flex: 1,
                 child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius:  BorderRadius.only())
+                  ),
 
                 ),
               )
@@ -63,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
                 flex: 3,
@@ -81,6 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
                 flex: 3,
@@ -99,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
                 flex: 3,
@@ -130,5 +144,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  void criaProdutos(){
+
   }
 }
