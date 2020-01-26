@@ -1,3 +1,4 @@
+import 'package:conta_estoque/Service/Service.dart';
 import 'package:conta_estoque/models/Produto.dart';
 import 'package:conta_estoque/screens/Pedido.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-  List<Produto> listProdutoss = [];
   int quantidadeProdutos;
+  List<Produto> listProdutos;
+  Service service = new Service();
 
   String dropdownValue = 'Ambev';
   @override
@@ -41,6 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   onChanged: (String newValue){
                     setState(() {
                       dropdownValue = newValue;
+                      print(newValue);
+                      criaProdutos();
                     });
                   },
                   items: <String>['Ambev', 'Eisenbah', 'Coca', 'Polina']
@@ -71,10 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                             child: ListView.builder(
                               padding: EdgeInsets.only(top: 10.0),
-                              itemCount: quantidadeProdutos,
+                              itemCount: listProdutos.length,
                               itemBuilder: (context, index){
-                                print("Cheguei aqui");
-                                return ProdutoRow(listProdutoss[index]);
+                                return ProdutoRow(listProdutos[index]);
                               },
                             ),
                           )
@@ -102,16 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   criaProdutos() async{
-    List<Produto> listProdutos = [
-      new Produto('Skol', 85, 0, 'Ambev'),
-      new Produto('Budwaiser', 45, 0, 'Ambev'),
-      new Produto('Batata Frisé', 30, 0, 'Polina'),
-      new Produto('Batata Rústica', 42, 0, 'Ambev')
-    ];
+    listProdutos = await service.CriaProdutos(dropdownValue);
+    quantidadeProdutos = await listProdutos.length;
 
-    listProdutoss = listProdutos;
-    quantidadeProdutos = listProdutoss.length;
-
+    print(listProdutos.length);
+    print(listProdutos[0].nome);
+    print(listProdutos[1].nome);
   }
 
   Widget ProdutoRow(Produto produto){
