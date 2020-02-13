@@ -10,12 +10,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int quantidadeProdutos;
-  List<Produto> listProdutos;
+  List<Produto> listProdutosFiltrados = [];
   Service service = new Service();
+  List<Produto> listProdutos = [];
+  List<TextEditingController> controladores = [];
 
   String dropdownValue = 'Ambev';
   @override
   Widget build(BuildContext context) {
+    listProdutos = service.criaProdutos();
+    listProdutosFiltrados = listProdutos.where((produtos) => produtos.fornecedor == dropdownValue).toList();
     return Scaffold(
       appBar: AppBar(
         title: Text("Conta estoque"),
@@ -24,29 +28,30 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width * 0.95,
+            width: MediaQuery.of(context).size.width * 0.99,
               child: DropdownButton<String>(
                   value: dropdownValue,
-                  icon: Icon(Icons.arrow_downward),
-                  iconSize: 30,
+                  icon: Icon(Icons.arrow_drop_down),
+                  iconSize: 60,
                   elevation: 14,
                   isExpanded: true,
                   style: TextStyle(
-                    color: Colors.deepOrange,
-                    fontWeight: FontWeight.bold
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0
                   ),
                   underline: Container(
                       height: 2,
-                      color: Colors.deepOrangeAccent
+                      color: Colors.black
                   ),
                   onChanged: (String newValue){
                     setState(() {
                       dropdownValue = newValue;
                       print(newValue);
-                      criaProdutos();
+                      listProdutosFiltrados = listProdutos.where((produtos) => produtos.fornecedor == dropdownValue).toList();
                     });
                   },
-                  items: <String>['Ambev', 'Eisenbah', 'Coca', 'Polina']
+                  items: <String>['Ambev', 'Eisenbah', 'Coca', 'Polina', 'Prats', 'Diversos', 'Sodas', 'Ingredientes', 'Carnes', 'Embalagens']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -57,40 +62,23 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           Expanded(
             child: Container(
-              child: FutureBuilder(
-                future: criaProdutos(),
-                builder: (BuildContext context, AsyncSnapshot snapshot){
-                  switch(snapshot.connectionState){
-                    case ConnectionState.none:
-                    case ConnectionState.waiting:
-                      return Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    default:
-                      return Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: ListView.builder(
-                              padding: EdgeInsets.only(top: 10.0),
-                              itemCount: listProdutos.length,
-                              itemBuilder: (context, index){
-                                return ProdutoRow(listProdutos[index]);
-                              },
-                            ),
-                          )
-                        ],
-                     );
-                   }
-                },
-              ),
+              child: ListView.builder(
+                  itemCount: listProdutosFiltrados.length,
+                  itemBuilder: (context, index){
+                    controladores.add(TextEditingController());
+                    return produtoRow(listProdutosFiltrados[index], controladores[index]);
+                  })
             ),
           ),
           RaisedButton(
             onPressed: () {
+              for(int i = 0; i < listProdutosFiltrados.length; i++){
+                listProdutosFiltrados[i].quantidadeTotal = int.parse(controladores[i].text);
+                listProdutosFiltrados[i].quantidadeNecessaria = listProdutosFiltrados[i].calculaQuantidade(listProdutosFiltrados[i]);
+              }
+
               Navigator.push(context, MaterialPageRoute(
-                builder: (context) => Pedido()
+                builder: (context) => Pedido(listProdutosFiltrados)
               ));
             },
             child: const Text(
@@ -103,24 +91,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  criaProdutos() async{
-    listProdutos = await service.CriaProdutos(dropdownValue);
-    quantidadeProdutos = await listProdutos.length;
-
-    print(listProdutos.length);
-    print(listProdutos[0].nome);
-    print(listProdutos[1].nome);
-  }
-
-  Widget ProdutoRow(Produto produto){
+  Widget produtoRow(Produto produto, TextEditingController controlador){
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Expanded(
-          flex: 3,
+          flex: 4,
           child: Text(produto.nome,
             style: TextStyle(
-                fontSize: 30,
+                fontSize: 24,
                 fontWeight: FontWeight.bold
             ),
           ),
@@ -128,8 +107,10 @@ class _HomeScreenState extends State<HomeScreen> {
         Expanded(
           flex: 1,
           child: TextField(
+            controller: controlador,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
-                border: OutlineInputBorder(borderRadius:  BorderRadius.only())
+                border: OutlineInputBorder(borderRadius:  BorderRadius.only()),
             ),
 
           ),
