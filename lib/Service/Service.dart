@@ -2,7 +2,7 @@ import 'package:conta_estoque/models/Produto.dart';
 
 class Service {
 
-  List<Produto> criaProdutos(){
+  List<Produto> criaProdutos(int i){
     List<Produto> listProdutos = [
       // EISENBAH
 
@@ -74,6 +74,9 @@ class Service {
       new Produto('Mojito', 0, 0, 'Sodas'),
       new Produto('Blueberry', 0, 0, 'Sodas'),
 
+    ];
+
+    List<Produto> listProdutosCozinha = [
       // INGREDIENTES
 
       new Produto('Tomate', 36, 0, 'Ingredientes'),
@@ -136,11 +139,13 @@ class Service {
       new Produto('Isopor para frango', 100, 0, 'Embalagens'),
       new Produto('Separador de Hamburguer', 1, 0, 'Embalagens'),//FARDO
       new Produto('Papel Pequeno Hamburguer mesas', 0, 0, 'Embalagens')
-
-
     ];
 
-    return listProdutos;
+    if(i == 0){
+      return listProdutos;
+    }else{
+      return listProdutosCozinha;
+    }
   }
 
 

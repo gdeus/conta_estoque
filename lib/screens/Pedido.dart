@@ -1,6 +1,3 @@
-import 'dart:typed_data';
-import 'dart:async';
-import 'dart:ui' as ui;
 import 'package:conta_estoque/models/Produto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,7 +13,8 @@ class Pedido extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tela pedido " + produtos[0].fornecedor),
+        title: Text("Tela pedido " + produtos[0].fornecedor, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        backgroundColor: Color(0xfff89a3b)
       ),
       body: Column(
         children: <Widget>[
@@ -45,7 +43,7 @@ class Pedido extends StatelessWidget {
       stringPedido = stringPedido + produtos[i].nome + ' ' +
           produtos[i].quantidadeNecessaria.toString() + '\n';
     }
-
+    print(stringPedido);
     return stringPedido;
   }
 
