@@ -13,8 +13,6 @@ class Produto{
   }
 
   calculaQuantidade(Produto produto){
-
-    print("Quantidade necessaria: " + (produto.quantidadeIdeal - produto.quantidadeTotal).toString());
     return produto.quantidadeIdeal - produto.quantidadeTotal;
   }
 }

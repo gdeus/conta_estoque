@@ -11,15 +11,15 @@ class Service {
       new Produto('Ipa', 24, 0, 'Eisenbah'),
       new Produto('Weizen', 24, 0, 'Eisenbah'),
       new Produto('Strong Gold Ale', 24, 0, 'Eisenbah'),
-      new Produto('Sol Long', 72, 0, 'Eisenbah'),
 
       // COCA
 
       new Produto('Heineken', 72, 0, 'Coca'),
+      new Produto('Sol Long', 72, 0, 'Coca'),
       new Produto('Coca Lata', 144, 0, 'Coca'),
       new Produto('Coca 0', 24, 0, 'Coca'),
       new Produto('Coca 2L', 48, 0, 'Coca'),
-      new Produto('Coca 600ML', 300, 0, 'Coca'),//2cx
+      new Produto('Coca 600ML', 60, 0, 'Coca'),//2cx
       new Produto('Fanta Laranja', 24, 0, 'Coca'),
       new Produto('Fanta Uva', 24, 0, 'Coca'),
       new Produto('Sprite', 24, 0, 'Coca'),
@@ -126,9 +126,9 @@ class Service {
 
       // CARNES
 
-      new Produto('Costelinhas BBQ(CRUA)', 0, 0, 'Carnes'),
-      new Produto('Costelinhas BBQ(sem assar)', 0, 0, 'Carnes'),
-      new Produto('Ancho', 0, 0, 'Carnes'),
+      new Produto('Costelinhas BBQ(CRUA)', 10, 0, 'Carnes'),
+      new Produto('Costelinhas BBQ(sem assar)', 4, 0, 'Carnes'),
+      new Produto('Ancho', 15, 0, 'Carnes'),
 
       // EMBALAGENS
 

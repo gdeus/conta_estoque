@@ -103,12 +103,14 @@ class _HomeScreenState extends State<HomeScreen> {
           RaisedButton(
             onPressed: () {
               for(int i = 0; i < listProdutosFiltrados.length; i++){
-                if(controladores[i].text != '') {
+                if(controladores[i].text.isEmpty){
+                  listProdutosFiltrados[i].quantidadeTotal = 0;
+                } else {
                   listProdutosFiltrados[i].quantidadeTotal =
                       int.parse(controladores[i].text);
-                } else {
                 }
-                  listProdutosFiltrados[i].quantidadeNecessaria = listProdutosFiltrados[i].calculaQuantidade(listProdutosFiltrados[i]);
+                listProdutosFiltrados[i].quantidadeNecessaria = listProdutosFiltrados[i].calculaQuantidade(listProdutosFiltrados[i]);
+                controladores[i].text = '';
               }
 
               Navigator.push(context, MaterialPageRoute(
